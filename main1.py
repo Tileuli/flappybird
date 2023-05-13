@@ -51,6 +51,12 @@ def mainGame():
     newPipe1 = getRandomPipe()
     newPipe2 = getRandomPipe()
 
+    birdImages = [
+        pygame.image.load('sprites1/yellowbird-upflap.png').convert_alpha(),
+        pygame.image.load('sprites1/yellowbird-midflap.png').convert_alpha(),
+        pygame.image.load('sprites1/yellowbird-downflap.png').convert_alpha()
+    ]
+
     coinImg = pygame.image.load('sprites1/coin.png').convert_alpha()
 
     upperPipes = [
@@ -69,13 +75,21 @@ def mainGame():
     playerMaxVelY = 10
     playerAccY = 1
 
-    birdImg = pygame.image.load('sprites1/bird.png').convert_alpha()
     birdAngle = 0
+
+    wingIndex = 0
 
     playerFlapVel = -8
     playerFlapped = False
 
+    frame_count = 0
+
     while True:
+        if frame_count % 10 == 0:
+            wingIndex = (wingIndex + 1) % len(birdImages)
+
+        birdImg = birdImages[wingIndex]
+
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
                 pygame.quit()
@@ -143,6 +157,7 @@ def mainGame():
             base_x = 0
 
         SCREEN.blit(game_images['background'], (0, 0))
+
         if playerVelY > 0:
             birdAngle = -30
         else:
