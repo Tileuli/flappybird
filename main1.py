@@ -51,9 +51,11 @@ def mainGame():
     newPipe1 = getRandomPipe()
     newPipe2 = getRandomPipe()
 
+    coinImg = pygame.image.load('sprites1/coin.png').convert_alpha()
+
     upperPipes = [
-        {'x': SCREEN_WIDTH + 200, 'y': newPipe1[0]['y']},
-        {'x': SCREEN_WIDTH + 200 + (SCREEN_WIDTH / 2), 'y': newPipe2[0]['y']}
+        {'x': SCREEN_WIDTH + 200, 'y': newPipe1[0]['y'], 'coin': True},
+        {'x': SCREEN_WIDTH + 200 + (SCREEN_WIDTH / 2), 'y': newPipe2[0]['y'], 'coin': True}
     ]
 
     lowerPipes = [
@@ -89,8 +91,8 @@ def mainGame():
             newPipe1 = getRandomPipe()
             newPipe2 = getRandomPipe()
             upperPipes = [
-                {'x': SCREEN_WIDTH + 200, 'y': newPipe1[0]['y']},
-                {'x': SCREEN_WIDTH + 200 + (SCREEN_WIDTH / 2), 'y': newPipe2[0]['y']}
+                {'x': SCREEN_WIDTH + 200, 'y': newPipe1[0]['y'], 'coin': True},
+                {'x': SCREEN_WIDTH + 200 + (SCREEN_WIDTH / 2), 'y': newPipe2[0]['y'], 'coin': True}
             ]
             lowerPipes = [
                 {'x': SCREEN_WIDTH + 200, 'y': newPipe1[1]['y']},
@@ -102,12 +104,14 @@ def mainGame():
         for pipe in upperPipes:
             pipeMidPos = pipe['x'] + game_images['pipe'][0].get_width() / 2
             if pipeMidPos <= playerMidPos < pipeMidPos + 4:
-                score += 1
-                game_sounds['point'].play()
-                if score > high_score:
-                    high_score = score
-                    with open("high_score.txt", "w") as file:
-                        file.write(str(high_score))
+                if pipe['coin']:
+                    pipe['coin'] = False
+                    score += 1
+                    game_sounds['point'].play()
+                    if score > high_score:
+                        high_score = score
+                        with open("high_score.txt", "w") as file:
+                            file.write(str(high_score))
 
         if playerVelY < playerMaxVelY and not playerFlapped:
             playerVelY += playerAccY
@@ -124,7 +128,7 @@ def mainGame():
 
         if 0 < upperPipes[0]['x'] < 5:
             newPipe = getRandomPipe()
-            upperPipes.append(newPipe[0])
+            upperPipes.append({'x': SCREEN_WIDTH + 10, 'y': newPipe[0]['y'], 'coin': True})
             lowerPipes.append(newPipe[1])
 
         if upperPipes[0]['x'] < -game_images['pipe'][0].get_width():
@@ -140,6 +144,8 @@ def mainGame():
         for upperPipe, lowerPipe in zip(upperPipes, lowerPipes):
             SCREEN.blit(game_images['pipe'][0], (upperPipe['x'], upperPipe['y']))
             SCREEN.blit(game_images['pipe'][1], (lowerPipe['x'], lowerPipe['y']))
+            if upperPipe['coin']:
+                SCREEN.blit(coinImg, (upperPipe['x'] + 5, upperPipe['y'] + 440))
             SCREEN.blit(game_images['base'], (base_x, GROUND_Y))
             SCREEN.blit(game_images['player'], (player_x, player_y))
 
@@ -242,7 +248,6 @@ def show_score(score):
     for digit in digits:
         SCREEN.blit(game_images['numbers'][digit], (x_offset, y_offset))
         x_offset += game_images['numbers'][digit].get_width()
-
 
 def show_high_score(high_score):
     digits = [int(x) for x in str(high_score)]
