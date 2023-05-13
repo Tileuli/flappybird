@@ -10,7 +10,7 @@ SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 GROUND_Y = SCREEN_HEIGHT * 0.8
 game_images = {}
 game_sounds = {}
-player = 'sprites1/bird.png'
+player = 'sprites1/yellowbird-midflap.png'
 background = 'sprites1/background-day.png'
 pipe = 'sprites1/pipe-green.png'
 
