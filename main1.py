@@ -38,7 +38,6 @@ def show_menu():
                 SCREEN.blit(game_images['share'], (160, 415))
                 pygame.display.update()
                 FPS_CLOCK.tick(FPS)
-
 def mainGame():
     score = 0
     with open("high_score.txt", "r") as file:
@@ -177,7 +176,6 @@ def isCollide(player_x, player_y, upperPipes, lowerPipes):
 
     return False
 
-
 def getRandomPipe():
     pipeHeight = game_images['pipe'][0].get_height()
     offset = SCREEN_HEIGHT / 5
@@ -189,7 +187,6 @@ def getRandomPipe():
         {'x': pipeX, 'y': y2}
     ]
     return pipe
-
 
 def game_show_over(score, high_score):
     game_over_x = int((SCREEN_WIDTH - game_images['gameover'].get_width()) / 2)
@@ -246,7 +243,6 @@ def show_score(score):
         SCREEN.blit(game_images['numbers'][digit], (x_offset, y_offset))
         x_offset += game_images['numbers'][digit].get_width()
 
-
 def show_high_score(high_score):
     digits = [int(x) for x in str(high_score)]
     width = 0
@@ -259,7 +255,6 @@ def show_high_score(high_score):
     for digit in digits:
         SCREEN.blit(game_images['numbers'][digit], (x_offset, y_offset))
         x_offset += game_images['numbers'][digit].get_width()
-
 
 if __name__ == "__main__":
     pygame.init()
@@ -293,7 +288,6 @@ if __name__ == "__main__":
     game_images['restart'] = pygame.image.load('sprites1/restart.png').convert_alpha()
     game_images['new'] = pygame.image.load('sprites1/new.png').convert_alpha()
 
-    # Game Sounds
     game_sounds['die'] = pygame.mixer.Sound('sprites1/die.wav')
     game_sounds['hit'] = pygame.mixer.Sound('sprites1/hit.wav')
     game_sounds['point'] = pygame.mixer.Sound('sprites1/point.wav')
