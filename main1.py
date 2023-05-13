@@ -10,7 +10,7 @@ SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 GROUND_Y = SCREEN_HEIGHT * 0.8
 game_images = {}
 game_sounds = {}
-player = 'sprites1/yellowbird-midflap.png'
+player = 'sprites1/bird.png'
 background = 'sprites1/background-day.png'
 pipe = 'sprites1/pipe-green.png'
 
@@ -68,6 +68,9 @@ def mainGame():
     playerVelY = -9
     playerMaxVelY = 10
     playerAccY = 1
+
+    birdImg = pygame.image.load('sprites1/bird.png').convert_alpha()
+    birdAngle = 0
 
     playerFlapVel = -8
     playerFlapped = False
@@ -140,6 +143,12 @@ def mainGame():
             base_x = 0
 
         SCREEN.blit(game_images['background'], (0, 0))
+        if playerVelY > 0:
+            birdAngle = -30
+        else:
+            birdAngle = 30
+
+        rotated_bird = pygame.transform.rotate(birdImg, birdAngle)
 
         for upperPipe, lowerPipe in zip(upperPipes, lowerPipes):
             SCREEN.blit(game_images['pipe'][0], (upperPipe['x'], upperPipe['y']))
@@ -147,7 +156,7 @@ def mainGame():
             if upperPipe['coin']:
                 SCREEN.blit(coinImg, (upperPipe['x'] + 5, upperPipe['y'] + 440))
             SCREEN.blit(game_images['base'], (base_x, GROUND_Y))
-            SCREEN.blit(game_images['player'], (player_x, player_y))
+            SCREEN.blit(rotated_bird, (player_x, player_y))
 
         myDigits = [int(x) for x in list(str(score))]
         width = 0
