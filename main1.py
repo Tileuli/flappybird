@@ -243,6 +243,7 @@ def show_score(score):
         SCREEN.blit(game_images['numbers'][digit], (x_offset, y_offset))
         x_offset += game_images['numbers'][digit].get_width()
 
+
 def show_high_score(high_score):
     digits = [int(x) for x in str(high_score)]
     width = 0
